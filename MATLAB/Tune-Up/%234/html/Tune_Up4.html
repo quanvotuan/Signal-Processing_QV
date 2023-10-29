@@ -1,0 +1,199 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Tune_Up4</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-10-05"><meta name="DC.source" content="Tune_Up4.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">The tuneup is to solve homework problem 4.3(b) and verify the solution</a></li><li><a href="#3">Intro.  A step function u[n] is a function that turns &#8220;on&#8221; at the origin and</a></li><li><a href="#4">stays on.  Mathematically, u[n] is</a></li><li><a href="#5">1 when n &gt;= 0</a></li><li><a href="#6">0 otherwise.</a></li><li><a href="#7">In Matlab, one can implement u[n] as ( (n) &gt;= 0 ).  The logical operator &gt;=</a></li><li><a href="#8">returns 1 if true and 0 if false.</a></li><li><a href="#9">Problem. A certain linear time-invariant (LTI) system gives the output</a></li><li><a href="#10">y1[n] = d[n] + 2 d[n-1] - d[n-2]</a></li><li><a href="#11">when the input to the LTI system is</a></li><li><a href="#12">x1[n] = u[n]</a></li><li><a href="#13">y1[n] is called the step response of the LTI system.  Here, d[n]</a></li><li><a href="#14">is the unit impulse d[n] = 1 when n = 0 and 0 otherwise.  In Matlab,</a></li><li><a href="#15">rectpuls(n) implements d[n].</a></li><li><a href="#16">We&#8217;ll model the unknown LTI system as a finite impulse response (FIR)</a></li><li><a href="#17">filter with input signal x[n] and output signal y[n]</a></li><li><a href="#18">y[n] = h[0] x[n] + h[1] x[n-1] + h[2] x[n-2] + ...</a></li><li><a href="#19">From this information, compute the filter coefficients h[n] for</a></li><li><a href="#20">n = 0, 1, ..., N-1 and manually verify that the step response of the</a></li><li><a href="#21">FIR filter is y1[n].</a></li><li><a href="#22">Deconvolution.  We&#8217;ll use deconvolution to compute the filter coefficients.</a></li><li><a href="#23">We derive the time-domain deconvolution algorithm by evaluating the</a></li><li><a href="#24">output at n = 0 and let the FIR coefficients be b0, b1, b2, ....:</a></li><li><a href="#25">y[n] = b0 x[n] + b1 x[n-1] + b2 x[n-2] + ...</a></li><li><a href="#26">For LTI systems, it is a necessary (but not sufficient) condition for the system</a></li><li><a href="#27">to be &#8220;at rest&#8221;, which means that all initial conditions x[-1], x[-2], ..., x[-(N-1)]</a></li><li><a href="#28">must be zero.</a></li><li><a href="#29">Compute b0:  Since we know x[n] and y[n], we have one equation and one</a></li><li><a href="#30">unknown at n = 0:</a></li><li><a href="#31">y[0] = b0 x[0]   ---&gt;   b0 = y[0] / x[0]</a></li><li><a href="#32">For this calculation to be valid, the first value of the test signal, x[0], cannot</a></li><li><a href="#33">be zero.</a></li><li><a href="#34">Compute b1: The second output value is y[1] = b0 x[1] + b1 x[0], so</a></li><li><a href="#35">b1 = ( y[1] - b0 x[1] ) / x[0]</a></li><li><a href="#36">For this calculation to be valid, the first value of the test signal, x[0], cannot</a></li><li><a href="#37">be zero.</a></li><li><a href="#38">Compute b2: The third output value is y[2] = b0 x[2] + b1 x[1] + b2 x[0], so</a></li><li><a href="#39">b2 = ( y[2] - b0 x[2] - b1 x[1] ) / x[0]</a></li><li><a href="#40">For this calculation to be valid, the first value of the test signal, x[0], cannot</a></li><li><a href="#41">be zero.</a></li><li><a href="#42">Determine Nmax based on input signal</a></li><li><a href="#43">Finite-length   length(y) - length(x) + 1</a></li><li><a href="#44">Infinite-length length(x)</a></li><li><a href="#45">utdeconvolve.m. implements the above algorithm for deconvolution.</a></li><li><a href="#46">Part (a).  Give the vectors for x and y that you used when running</a></li><li><a href="#47">utdeconvolve.m. and the filter coefficients in vector b that the code computes.</a></li><li><a href="#48">Part (b). Verify that the filter coefficients by using them in the difference</a></li><li><a href="#49">equation for the LTI FIR filter.  You can use the Matlab command conv(x, b).</a></li></ul></div><pre class="codeinput"><span class="comment">% Tune-Up #4</span>
+
+<span class="comment">% Copy this file into a Matlab script window, add your code and answers to the</span>
+<span class="comment">% questions as Matlab comments, hit "Publish", and upload the resulting PDF file</span>
+<span class="comment">% to this page for the tune-up assignment.  Please do not submit a link to a file</span>
+<span class="comment">% but instead upload the file itself.   Late penalty: 2 points per minute late.</span>
+</pre><h2 id="2">The tuneup is to solve homework problem 4.3(b) and verify the solution</h2><h2 id="3">Intro.  A step function u[n] is a function that turns &#8220;on&#8221; at the origin and</h2><h2 id="4">stays on.  Mathematically, u[n] is</h2><h2 id="5">1 when n &gt;= 0</h2><h2 id="6">0 otherwise.</h2><h2 id="7">In Matlab, one can implement u[n] as ( (n) &gt;= 0 ).  The logical operator &gt;=</h2><h2 id="8">returns 1 if true and 0 if false.</h2><h2 id="9">Problem. A certain linear time-invariant (LTI) system gives the output</h2><h2 id="10">y1[n] = d[n] + 2 d[n-1] - d[n-2]</h2><h2 id="11">when the input to the LTI system is</h2><h2 id="12">x1[n] = u[n]</h2><h2 id="13">y1[n] is called the step response of the LTI system.  Here, d[n]</h2><h2 id="14">is the unit impulse d[n] = 1 when n = 0 and 0 otherwise.  In Matlab,</h2><h2 id="15">rectpuls(n) implements d[n].</h2><h2 id="16">We&#8217;ll model the unknown LTI system as a finite impulse response (FIR)</h2><h2 id="17">filter with input signal x[n] and output signal y[n]</h2><h2 id="18">y[n] = h[0] x[n] + h[1] x[n-1] + h[2] x[n-2] + ...</h2><h2 id="19">From this information, compute the filter coefficients h[n] for</h2><h2 id="20">n = 0, 1, ..., N-1 and manually verify that the step response of the</h2><h2 id="21">FIR filter is y1[n].</h2><h2 id="22">Deconvolution.  We&#8217;ll use deconvolution to compute the filter coefficients.</h2><h2 id="23">We derive the time-domain deconvolution algorithm by evaluating the</h2><h2 id="24">output at n = 0 and let the FIR coefficients be b0, b1, b2, ....:</h2><h2 id="25">y[n] = b0 x[n] + b1 x[n-1] + b2 x[n-2] + ...</h2><h2 id="26">For LTI systems, it is a necessary (but not sufficient) condition for the system</h2><h2 id="27">to be &#8220;at rest&#8221;, which means that all initial conditions x[-1], x[-2], ..., x[-(N-1)]</h2><h2 id="28">must be zero.</h2><h2 id="29">Compute b0:  Since we know x[n] and y[n], we have one equation and one</h2><h2 id="30">unknown at n = 0:</h2><h2 id="31">y[0] = b0 x[0]   ---&gt;   b0 = y[0] / x[0]</h2><h2 id="32">For this calculation to be valid, the first value of the test signal, x[0], cannot</h2><h2 id="33">be zero.</h2><h2 id="34">Compute b1: The second output value is y[1] = b0 x[1] + b1 x[0], so</h2><h2 id="35">b1 = ( y[1] - b0 x[1] ) / x[0]</h2><h2 id="36">For this calculation to be valid, the first value of the test signal, x[0], cannot</h2><h2 id="37">be zero.</h2><h2 id="38">Compute b2: The third output value is y[2] = b0 x[2] + b1 x[1] + b2 x[0], so</h2><h2 id="39">b2 = ( y[2] - b0 x[2] - b1 x[1] ) / x[0]</h2><h2 id="40">For this calculation to be valid, the first value of the test signal, x[0], cannot</h2><h2 id="41">be zero.</h2><pre class="codeinput">x = [ 1 2 3 4 5 ];
+y = [ 1 1 1 1 1 -5 ];
+</pre><h2 id="42">Determine Nmax based on input signal</h2><h2 id="43">Finite-length   length(y) - length(x) + 1</h2><h2 id="44">Infinite-length length(x)</h2><pre class="codeinput">Nmax = length(y) - length(x) + 1;   <span class="comment">%% finite-length input signal</span>
+<span class="keyword">if</span> ( Nmax &lt; 2 )
+    Nmax = length(x);
+<span class="keyword">end</span>
+
+b = zeros(1, Nmax);
+b(1) = y(1) / x(1);
+<span class="comment">% b(2) = ( y(2) - b(1)*x(2) ) / x(1);</span>
+<span class="comment">% b(3) = ( y(3) - b(1)*x(3) - b(2)*x(2) ) / x(1);</span>
+<span class="keyword">for</span> k = 2:Nmax
+    numer = y(k);
+    n = k;
+    <span class="keyword">for</span> m = 1:(k-1)
+	<span class="keyword">if</span> (n &gt;= 1)
+            numer = numer - b(m) * x(n);
+	<span class="keyword">end</span>
+        n = n - 1;
+    <span class="keyword">end</span>
+    b(k) = numer / x(1);
+<span class="keyword">end</span>
+</pre><h2 id="45">utdeconvolve.m. implements the above algorithm for deconvolution.</h2><h2 id="46">Part (a).  Give the vectors for x and y that you used when running</h2><h2 id="47">utdeconvolve.m. and the filter coefficients in vector b that the code computes.</h2><pre class="codeinput">fprintf(<span class="string">'%d, '</span>, b);
+fprintf(<span class="string">'\n'</span>)
+</pre><pre class="codeoutput">1, -1, 
+</pre><h2 id="48">Part (b). Verify that the filter coefficients by using them in the difference</h2><h2 id="49">equation for the LTI FIR filter.  You can use the Matlab command conv(x, b).</h2><pre class="codeinput">c = conv(x,b);
+fprintf(<span class="string">'%d, '</span>, c)
+</pre><pre class="codeoutput">1, 1, 1, 1, 1, -5, </pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Tune-Up #4
+
+% Copy this file into a Matlab script window, add your code and answers to the
+% questions as Matlab comments, hit "Publish", and upload the resulting PDF file
+% to this page for the tune-up assignment.  Please do not submit a link to a file
+% but instead upload the file itself.   Late penalty: 2 points per minute late.
+
+%% The tuneup is to solve homework problem 4.3(b) and verify the solution
+
+%% Intro.  A step function u[n] is a function that turns “on” at the origin and
+%% stays on.  Mathematically, u[n] is
+%%       1 when n >= 0
+%%       0 otherwise.
+%% In Matlab, one can implement u[n] as ( (n) >= 0 ).  The logical operator >=
+%% returns 1 if true and 0 if false.
+
+%% Problem. A certain linear time-invariant (LTI) system gives the output
+%%       y1[n] = d[n] + 2 d[n-1] - d[n-2]
+%% when the input to the LTI system is
+%%       x1[n] = u[n]
+%% y1[n] is called the step response of the LTI system.  Here, d[n]
+%% is the unit impulse d[n] = 1 when n = 0 and 0 otherwise.  In Matlab,
+%% rectpuls(n) implements d[n].
+
+%% We’ll model the unknown LTI system as a finite impulse response (FIR)
+%% filter with input signal x[n] and output signal y[n]
+%%       y[n] = h[0] x[n] + h[1] x[n-1] + h[2] x[n-2] + ...
+%% From this information, compute the filter coefficients h[n] for
+%% n = 0, 1, ..., N-1 and manually verify that the step response of the
+%% FIR filter is y1[n].
+
+%% Deconvolution.  We’ll use deconvolution to compute the filter coefficients.
+%% We derive the time-domain deconvolution algorithm by evaluating the
+%% output at n = 0 and let the FIR coefficients be b0, b1, b2, ....:
+%%      y[n] = b0 x[n] + b1 x[n-1] + b2 x[n-2] + ...
+%% For LTI systems, it is a necessary (but not sufficient) condition for the system
+%% to be “at rest”, which means that all initial conditions x[-1], x[-2], ..., x[-(N-1)]
+%% must be zero.
+
+%% Compute b0:  Since we know x[n] and y[n], we have one equation and one
+%% unknown at n = 0:
+%%       y[0] = b0 x[0]   REPLACE_WITH_DASH_DASH->   b0 = y[0] / x[0]
+%% For this calculation to be valid, the first value of the test signal, x[0], cannot
+%% be zero.
+
+%% Compute b1: The second output value is y[1] = b0 x[1] + b1 x[0], so
+%%       b1 = ( y[1] - b0 x[1] ) / x[0]
+%% For this calculation to be valid, the first value of the test signal, x[0], cannot
+%% be zero.
+
+%% Compute b2: The third output value is y[2] = b0 x[2] + b1 x[1] + b2 x[0], so
+%%        b2 = ( y[2] - b0 x[2] - b1 x[1] ) / x[0]
+%% For this calculation to be valid, the first value of the test signal, x[0], cannot
+%% be zero.
+
+x = [ 1 2 3 4 5 ];
+y = [ 1 1 1 1 1 -5 ];
+
+%% Determine Nmax based on input signal
+%%   Finite-length   length(y) - length(x) + 1
+%%   Infinite-length length(x)
+Nmax = length(y) - length(x) + 1;   %% finite-length input signal
+if ( Nmax < 2 )
+    Nmax = length(x);
+end
+
+b = zeros(1, Nmax);
+b(1) = y(1) / x(1);
+% b(2) = ( y(2) - b(1)*x(2) ) / x(1);
+% b(3) = ( y(3) - b(1)*x(3) - b(2)*x(2) ) / x(1);
+for k = 2:Nmax
+    numer = y(k);
+    n = k;
+    for m = 1:(k-1)
+	if (n >= 1)
+            numer = numer - b(m) * x(n);
+	end
+        n = n - 1;
+    end
+    b(k) = numer / x(1);
+end
+
+%% utdeconvolve.m. implements the above algorithm for deconvolution.
+
+%% Part (a).  Give the vectors for x and y that you used when running
+%% utdeconvolve.m. and the filter coefficients in vector b that the code computes.
+fprintf('%d, ', b);
+fprintf('\n')
+
+%% Part (b). Verify that the filter coefficients by using them in the difference
+%% equation for the LTI FIR filter.  You can use the Matlab command conv(x, b).
+c = conv(x,b);
+fprintf('%d, ', c)
+##### SOURCE END #####
+--></body></html>

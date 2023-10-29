@@ -1,0 +1,255 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>TuneUp1_Quan_Vo</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-08-29"><meta name="DC.source" content="TuneUp1_Quan_Vo.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% ECE 313: Tune-Up #1</span>
+<span class="comment">% Last edit by: Quan Vo @ 5:30 PM 8/29/2023</span>
+
+clc
+close <span class="string">all</span>
+
+<span class="comment">% You should be able to copy-and-paste this page into Matlab and execute it.</span>
+
+<span class="comment">% Please complete each section below.</span>
+
+<span class="comment">% Please include your Matlab code as well as any answers to the questions as</span>
+<span class="comment">% MATLAB comments in the full answer that you submit on Canvas.</span>
+
+<span class="comment">% (a) Copy, paste and run the Matlab code from slide 1-16 to generate a cosine signal</span>
+<span class="comment">%        at frequency 440 Hz to play it as an audio signal at a sampling rate of 8000 Hz:</span>
+
+f0 =  440;            <span class="comment">% 440 Hz (A in 4th octave, or A4)</span>
+
+fs = 8000;            <span class="comment">% sampling rate in Hz (a.k.a. samples/s)</span>
+
+Ts = 1/fs;            <span class="comment">% sampling time in s</span>
+
+t = 0 : Ts : 3;       <span class="comment">% sample times from 0s to 3s</span>
+
+x = cos(2*pi*f0*t);
+
+sound(x, fs);
+
+<span class="comment">% (b) Modify the code in (a) to change the cosine frequency to 880 Hz and run the code.</span>
+<span class="comment">%        Any difference in what you hear vs. a cosine frequency of 440 Hz?</span>
+
+<span class="comment">% My response:</span>
+<span class="comment">%   The cosine frequency of 880 Hz sounds more continuous, clearer, and sharper compare</span>
+<span class="comment">%   to the 440 Hz, which is blurry sound and had some break in between.</span>
+
+<span class="comment">%        Note:  A note in the next higher octave is at twice the frequency.  The &#8216;A&#8217; note</span>
+<span class="comment">%        is 440 Hz in the fourth octave, 880 Hz in the fifth, 1760 Hz in the sixth, etc.</span>
+
+pause(4);             <span class="comment">% pause for 4s to prevent sounds from overlapping</span>
+
+<span class="comment">% ----------- My (b) code -------------</span>
+
+f0 =  880;            <span class="comment">% 440 Hz (A in 4th octave, or A4)</span>
+
+fs = 8000;            <span class="comment">% sampling rate in Hz (a.k.a. samples/s)</span>
+
+Ts = 1/fs;            <span class="comment">% sampling time in s</span>
+
+t = 0 : Ts : 3;       <span class="comment">% sample times from 0s to 3s</span>
+
+x = cos(2*pi*f0*t);
+
+sound(x, fs);
+
+<span class="comment">% --------- End of (a)(b) --------------------------</span>
+
+<span class="comment">% (c) Using MATLAB, plot the first 12.5 ms of the 440 Hz signal and the 880 Hz signal</span>
+<span class="comment">%      in the time domain using the plot command.</span>
+
+<span class="comment">% Note: The reason part (c) had asked to plot the signal over 12.5ms is so you could see the</span>
+<span class="comment">% oscillation.  Plotting the signal over 3s would have 24000 points, i.e. 3s x 8000 samples/s,</span>
+<span class="comment">% and plotting 24000 points in a small plot window would blur together into a blue rectangle.</span>
+<span class="comment">% This part could have been done with f0 = 440 Hz or f0 = 880 Hz.</span>
+
+<span class="comment">% ----- My (c) code -----</span>
+f1 =  440;            <span class="comment">% change from 440 Hz (A4) to 880 Hz (A5)</span>
+f2 = 880;             <span class="comment">% 880 Hz (A5)</span>
+
+fs = 8000;            <span class="comment">% sampling rate in samples/s</span>
+Ts = 1/fs;            <span class="comment">% sampling time in s</span>
+t = 0 : Ts : 12.5*10^(-3);
+
+x1 = cos(2*pi*f1*t);
+x2 = cos(2*pi*f2*t);
+
+plot(t, x1, <span class="string">'LineWidth'</span>,2);           <span class="comment">% see the next page for plots for f0=440 and f0=880</span>
+hold <span class="string">on</span>
+plot(t, x2, <span class="string">'LineWidth'</span>,2);
+xlabel(<span class="string">'Time'</span>, <span class="string">'fontsize'</span>, 12)
+ylabel(<span class="string">'Signal'</span>, <span class="string">'fontsize'</span>, 12)
+legend(<span class="string">'x1'</span>, <span class="string">'x2'</span>, <span class="string">'fontsize'</span>, 15)
+grid <span class="string">on</span>
+
+<span class="comment">% (d) Describe your plot in (c).</span>
+<span class="comment">% My response:</span>
+<span class="comment">%{
+</span><span class="comment">    I have plotted two distinct signals, labeled as x1 and x2 within the 12.5 ms time domain
+</span><span class="comment">    The signal x1, depicted in blue, has a frequency of 440 Hz, while the signal x2, shown in orange, operates at 880 Hz.
+</span><span class="comment">    Notably, because x2's higher frequency compared to x1, we can observe
+</span><span class="comment">    more orange waves compare to blue waves within the 12.5 ms time domain.
+</span><span class="comment">%}</span>
+</pre><img vspace="5" hspace="5" src="TuneUp1_Quan_Vo_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% ECE 313: Tune-Up #1
+% Last edit by: Quan Vo @ 5:30 PM 8/29/2023
+
+clc
+close all
+
+% You should be able to copy-and-paste this page into Matlab and execute it.
+
+% Please complete each section below.
+
+% Please include your Matlab code as well as any answers to the questions as
+% MATLAB comments in the full answer that you submit on Canvas.
+
+% (a) Copy, paste and run the Matlab code from slide 1-16 to generate a cosine signal
+%        at frequency 440 Hz to play it as an audio signal at a sampling rate of 8000 Hz:
+
+f0 =  440;            % 440 Hz (A in 4th octave, or A4)
+
+fs = 8000;            % sampling rate in Hz (a.k.a. samples/s)
+
+Ts = 1/fs;            % sampling time in s
+
+t = 0 : Ts : 3;       % sample times from 0s to 3s
+
+x = cos(2*pi*f0*t);
+
+sound(x, fs);
+
+% (b) Modify the code in (a) to change the cosine frequency to 880 Hz and run the code.
+%        Any difference in what you hear vs. a cosine frequency of 440 Hz?
+
+% My response:
+%   The cosine frequency of 880 Hz sounds more continuous, clearer, and sharper compare
+%   to the 440 Hz, which is blurry sound and had some break in between.
+
+%        Note:  A note in the next higher octave is at twice the frequency.  The ‘A’ note
+%        is 440 Hz in the fourth octave, 880 Hz in the fifth, 1760 Hz in the sixth, etc.
+
+pause(4);             % pause for 4s to prevent sounds from overlapping
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH- My (b) code REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+
+f0 =  880;            % 440 Hz (A in 4th octave, or A4)
+
+fs = 8000;            % sampling rate in Hz (a.k.a. samples/s)
+
+Ts = 1/fs;            % sampling time in s
+
+t = 0 : Ts : 3;       % sample times from 0s to 3s
+
+x = cos(2*pi*f0*t);
+
+sound(x, fs);
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH- End of (a)(b) REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+
+% (c) Using MATLAB, plot the first 12.5 ms of the 440 Hz signal and the 880 Hz signal
+%      in the time domain using the plot command. 
+
+% Note: The reason part (c) had asked to plot the signal over 12.5ms is so you could see the
+% oscillation.  Plotting the signal over 3s would have 24000 points, i.e. 3s x 8000 samples/s,
+% and plotting 24000 points in a small plot window would blur together into a blue rectangle.
+% This part could have been done with f0 = 440 Hz or f0 = 880 Hz.
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH- My (c) code REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+f1 =  440;            % change from 440 Hz (A4) to 880 Hz (A5)
+f2 = 880;             % 880 Hz (A5)
+
+fs = 8000;            % sampling rate in samples/s
+Ts = 1/fs;            % sampling time in s
+t = 0 : Ts : 12.5*10^(-3);
+
+x1 = cos(2*pi*f1*t);
+x2 = cos(2*pi*f2*t);
+
+plot(t, x1, 'LineWidth',2);           % see the next page for plots for f0=440 and f0=880
+hold on
+plot(t, x2, 'LineWidth',2);
+xlabel('Time', 'fontsize', 12)
+ylabel('Signal', 'fontsize', 12)
+legend('x1', 'x2', 'fontsize', 15)
+grid on
+
+% (d) Describe your plot in (c).
+% My response: 
+%{
+    I have plotted two distinct signals, labeled as x1 and x2 within the 12.5 ms time domain
+    The signal x1, depicted in blue, has a frequency of 440 Hz, while the signal x2, shown in orange, operates at 880 Hz. 
+    Notably, because x2's higher frequency compared to x1, we can observe
+    more orange waves compare to blue waves within the 12.5 ms time domain.
+%}
+##### SOURCE END #####
+--></body></html>
