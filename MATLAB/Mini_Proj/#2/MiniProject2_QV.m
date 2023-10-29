@@ -15,17 +15,32 @@ load echar512.mat;
 
 % (b) Display the image.
 figure;
-imshow(echart);
+imshow(echart, [0 255]);
 
 bdiffh = [1, -1];
 yy1 = conv2(echart, bdiffh);
 figure;
-imshow(yy1);
+imshow(yy1, []);
 
 % conv2 command only apply to 1 dimension array 
-% me. Compare the two images and give a qualitative
-% description of what you see
 
+%Compare the two images and give a qualitative description of what you see
+%{
+The 1st image: Default
+2nd image: Filter all rows in horizontal direction
+
+Compare to the 1st image, instead of a union distribution of white pixel on
+the edge outlining the shape of the letter and fill in black pixels.
+
+The second image keep some edge as black (-255), some edges white (255)
+different for each letter and fill the pixels inside the letter as gray
+(0). Also most of the vertical edge on the left side of the letters are fill with
+black pixels compare to the vertical edge on the right which is fill with white
+pixels.
+
+
+
+%}
 
 %-> The background of the image got reverse from white to black
 % -> For the letter, there only the edges of letter who got inverted ->
@@ -33,7 +48,32 @@ imshow(yy1);
 
 yy2 = conv2(echart,bdiffh');
 figure;
-imshow(yy2);
+imshow(yy2 ,[]);
+
+%{ 
+My reponse:
+    The 1st image: Default
+    3nd image: Filter all colums in vertical direction
+    
+    Compare to the 1st image, instead of a union distribution of white pixel on
+    the edge outlining the shape of the letter and fill in black pixels.
+    
+    The 3rd image show nearly similar output as the 2nd image. However,
+    instead of showing white pixels on the vertical edge of the letters,
+    the white pixels show up on the horizontal edges. Also, the Black horizontal edges always ontop of the white
+    horizontal edge.
+
+    For example: The letter E, there are 3 horizontal white edges of the
+    letter. 
+ 
+keep some edge as black (-255), some edges white (255)
+    different for each letter and fill the pixels inside the letter as gray
+    (0). Also most of the vertical edge on the left side of the letters are fill with
+    black pixels compare to the vertical edge on the right which is fill with white
+    pixels.
+
+%}
+
 
 %-> The background of the image got reverse from white to black
 % -> For the letter, there only the edges of letter who got inverted ->
@@ -45,7 +85,8 @@ imshow(yy2);
 % compare to the difference from black -> white = 0 - 255 = -255 (Extra black)
 
 
-
+% -------------------- Not related, just extra resources ------------------
+% %
 
 % (d) Apply a two-point averaging filter along the rows.
 % Display the resulting image.
