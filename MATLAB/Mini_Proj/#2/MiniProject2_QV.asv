@@ -86,19 +86,17 @@ keep some edge as black (-255), some edges white (255)
 
 %% Sec 3.2
 
-% w[n] = x[n] - qx[n-1]
-% y[n] = Sum from l = 0 -> M(r^lw[n-l])
-
 % Define parameters for the problem:
-N = 30;
+N = 20;
 M = 22; % Length of the filter impulse response 'rl'
-n = 0:1:N;  % Time indices for the input signal
-l = 0:1:M;  % Time indices for the filter impulse response
 q = 0.9;   % Filter parameter 'q'
 r = 0.9;   % Filter parameter 'r'
 
+n = 0:1:N;  % Time indices for the input signal
+l = 0:1:M;  % Time indices for the filter impulse response
+
 %Generate an Impulse func 'delta(n)'
-delta_n = (n == 0);
+delta_n (n == 0);
 
 % Define the FIR coefficients
 FIR1coeff = [1, -0.9]; % FIR filter coefficients
@@ -115,33 +113,8 @@ for l = 0:1:M
 end
 
 % Apply the filter with impulse response 'rl' to 'wn' to get 'yn'
-yn = filter(rl, 1, wn);
+yn = filter(rl, 1, wn); % Ask TAs
 yn;
-
-subplot(3,1,1);
-
-subplot(3,1,1);
-stem(n, delta_n);
-title('Impulse Function: \delta(n)');
-xlabel('Time Index (n)');
-ylabel('Amplitude');
-
-% Plot the filtered signal 'wn'
-subplot(3,1,2);
-stem(n, wn);
-title('Filtered Signal: wn[n]');
-xlabel('Time Index (n)');
-ylabel('Amplitude');
-
-% Plot the output signal 'yn'
-subplot(3,1,3);
-stem(n, yn);
-title('Output Signal: yn[n]');
-xlabel('Time Index (n)');
-ylabel('Amplitude');
-
-
-%%
 
 
 
