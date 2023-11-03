@@ -3,7 +3,7 @@ close all
 clc
 % Parameter
 N = 5;
-M = 22; % Length of the filter impulse response 'rl'
+M = 33; % Length of the filter impulse response 'rl'
 n = -1:1:N;  % Time indices for the input signal
 l = 0:1:M;  % Time indices for the filter impulse response
 q = 0.9;   % Filter parameter 'q'
@@ -53,14 +53,11 @@ ylabel('Amplitude');
 %% 3.2.2
 load echar512.mat;
 
-%figure;
-%hAxes = axes(figure); 
-%hImage = imshow(echart, [], 'Parent', hAxes);
-%title(hAxes, 'Original echart image');
-
 % (b) Display the image.
-figure;
-imshow(echart, []);
+hAxes = axes(figure); 
+hImage = imshow(echart, [], 'Parent', hAxes);
+title(hAxes, 'Original echart image');
+%imshow(echart, []);
 
 % Apply the 1st FIR filter
 bdiffh = [1, -q];
@@ -71,9 +68,10 @@ ech90 = conv2(filtered_horizontal, bdiffh');
 
 
 % Display the resulting image
-figure;
-imshow(ech90, []);
-title('ech90');
+eAxes = axes(figure); 
+ech90Image = imshow(ech90, [], 'Parent', eAxes);
+title(eAxes, 'ech90 Image');
+
 
 % --- 
 
@@ -87,9 +85,9 @@ re_v = conv2(ech90, rl');
 ech90rec = conv2(re_v, rl);
 
 % 3. Display the resulting image
-figure;
-imshow(ech90rec, []);
-title('Recover ech90');
+e2Axes = axes(figure); 
+ech90rec_Image = imshow(ech90rec, [], 'Parent', e2Axes);
+title(e2Axes, 'Recover ech90 Image');
 
 %% Visual quality
 % Cropping

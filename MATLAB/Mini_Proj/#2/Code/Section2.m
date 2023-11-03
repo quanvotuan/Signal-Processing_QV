@@ -4,10 +4,12 @@ clc
 load echar512.mat;
 
 % (b) Display the image.
-figure;
-imshow(echart, []);
+hAxes = axes(figure); 
+hImage = imshow(echart, [], 'Parent', hAxes);
+title(hAxes, 'Original echart image');
 
 bdiffh = [1, -1];
+
 yy1 = conv2(echart, bdiffh);
 figure;
 imshow(yy1, []);
