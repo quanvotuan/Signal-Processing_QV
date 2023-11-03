@@ -26,7 +26,7 @@ rl = r .^ l;
 
 % Apply the filter with impulse response 'rl' to 'wn' to get 'yn'
 yn = filter(rl, 1, wn);
-yn
+yn;
 
 % Plot the Impulse Function
 figure;
@@ -88,7 +88,7 @@ ech90rec = conv2(re_v, rl);
 
 % 3. Display the resulting image
 figure;
-imshow(rec, []);
+imshow(ech90rec, []);
 title('Recover ech90');
 
 %% Visual quality
@@ -109,9 +109,9 @@ immse(ech90rec_cropped, echart)
 % PSNR: to compute the peak signal-to-noise ratio (PSNR) 
 % in dB where a higher score is better, but the scores might not align well with human perception of quality.
 psnr (ech90_cropped, echart)
-psnr (ech90_rec_cropped, echart)
+psnr (ech90rec_cropped, echart)
 
 % SSIM: compute the structural similarity (SSIM) 
 % index on a scale of 0 to 1 where a higher score is better, and the scores align well with human perception of quality.
-ssim (ech90cropped, echart)
-ssim (ech90_rec_cropped, echart)
+ssim (ech90_cropped, echart)
+ssim (ech90rec_cropped, echart)
