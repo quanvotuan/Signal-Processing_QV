@@ -1,21 +1,11 @@
 close all
 clc
 
-% Copy this file into a Matlab script window, add your code and answers to the
-% questions as Matlab comments, hit "Publish", and upload the resulting PDF file
-% to this page for the tune-up assignment. Please do not submit a link to a file
-% but instead upload the file itself. Late penalty: 2 points per minute late.
-% This tuneup is to help you get started on the mini project number #2
-% (a) Load the image. Download the image from
-% https://users.ece.utexas.edu/~bevans/courses/signals/homework/ echar512.matLinks to an external site.
-% and place it in the current directory or a directory on the Matlab path. load echar512.mat
-% The load command will define a Matlab matrix echart.
-
 load echar512.mat;
 
 % (b) Display the image.
 figure;
-imshow(echart, [0 255]);
+imshow(echart, []);
 
 bdiffh = [1, -1];
 yy1 = conv2(echart, bdiffh);
@@ -30,21 +20,16 @@ The 1st image: Default
 2nd image: Filter all rows in horizontal direction
 
 Compare to the 1st image, instead of a union distribution of white pixel on
-the edge outlining the shape of the letter and fill in black pixels.
+the edge outlining the shape of the letter and fill the inside with black pixels.
 
 The second image keep some edge as black (-255), some edges white (255)
-different for each letter and fill the pixels inside the letter as gray
-(0). Also most of the vertical edge on the left side of the letters are fill with
+different for each letter and fill the pixels inside the letters as grey (0). 
+Also most of the vertical edge on the left side of the letters are fill with
 black pixels compare to the vertical edge on the right which is fill with white
 pixels.
 
 
-
 %}
-
-%-> The background of the image got reverse from white to black
-% -> For the letter, there only the edges of letter who got inverted ->
-% white; the rest of them stay as black.
 
 yy2 = conv2(echart,bdiffh');
 figure;
@@ -83,66 +68,6 @@ keep some edge as black (-255), some edges white (255)
 % Difference filter => y[n] = x[n] - x[n-1]
 % -> Because the difference from white -> black = 255 - 0 = 255 (Stay white)
 % compare to the difference from black -> white = 0 - 255 = -255 (Extra black)
-
-%% Sec 3.2
-
-% w[n] = x[n] - qx[n-1]
-% y[n] = Sum from l = 0 -> M(r^lw[n-l])
-
-% Define parameters for the problem:
-N = 30;
-M = 22; % Length of the filter impulse response 'rl'
-n = 0:1:N;  % Time indices for the input signal
-l = 0:1:M;  % Time indices for the filter impulse response
-q = 0.9;   % Filter parameter 'q'
-r = 0.9;   % Filter parameter 'r'
-
-%Generate an Impulse func 'delta(n)'
-delta_n = (n == 0);
-
-% Define the FIR coefficients
-FIR1coeff = [1, -0.9]; % FIR filter coefficients
-
-% Apply the filter to the delta function 'delta(n)' to get 'wn'
-wn = filter(FIR1coeff, 1, delta_n);
-
-% Initialize an array to store the filter impulse response 'rl'
-rl = zeros(size(l));
-
-% Calculate the values of 'rl' 
-for l = 0:1:M
-    rl(l+1) = r.^l;
-end
-
-% Apply the filter with impulse response 'rl' to 'wn' to get 'yn'
-yn = filter(rl, 1, wn);
-yn;
-
-subplot(3,1,1);
-
-subplot(3,1,1);
-stem(n, delta_n);
-title('Impulse Function: \delta(n)');
-xlabel('Time Index (n)');
-ylabel('Amplitude');
-
-% Plot the filtered signal 'wn'
-subplot(3,1,2);
-stem(n, wn);
-title('Filtered Signal: wn[n]');
-xlabel('Time Index (n)');
-ylabel('Amplitude');
-
-% Plot the output signal 'yn'
-subplot(3,1,3);
-stem(n, yn);
-title('Output Signal: yn[n]');
-xlabel('Time Index (n)');
-ylabel('Amplitude');
-
-
-%%
-
 
 
 %%
@@ -185,4 +110,3 @@ Hints:
     bcolvec= browvec';
 
 %}
-

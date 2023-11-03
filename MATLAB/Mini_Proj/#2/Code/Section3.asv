@@ -5,7 +5,7 @@ load echar512.mat;
 
 % Parameter
 N = 30;
-M = 33; % Length of the filter impulse response 'rl'
+M = 11; % Length of the filter impulse response 'rl'
 n = 0:1:N;  % Time indices for the input signal
 l = 0:1:M;  % Time indices for the filter impulse response
 q = 0.9;   % Filter parameter 'q'
@@ -16,11 +16,14 @@ r = 0.9;   % Filter parameter 'r'
 %hImage = imshow(echart, [], 'Parent', hAxes);
 %title(hAxes, 'Original echart image');
 
-bdiffh = [1, -0.9];
+% (b) Display the image.
+figure;
+imshow(echart, []);
 
+% Apply the 1st FIR filter
+bdiffh = [1, -0.9];
 % Apply FILTER-1 along the horizontal direction
 filtered_horizontal = conv2(echart, bdiffh);
-
 % Apply FILTER-1 along the vertical direction to the result from the horizontal filtering
 ech90 = conv2(filtered_horizontal, bdiffh');
 
@@ -30,11 +33,11 @@ figure;
 imshow(ech90, []);
 title('ech90');
 
-
 % --- 
 
 % Calculate the values of 'rl'
-rl = r .^ l;
+% This code is equivalent with a for loop to calculate the sum of r
+rl = r .^ l; 
 
 % Deconvolve 'ech90' using 'rl' to recover the original signal
 %recover_ech90 = deconv(filtered_horizontal, rl);
@@ -48,10 +51,11 @@ title('Recover ech90');
 % -------- %
 
 %{
-Why did we keep 512 rows and 512 colums
+Why did we keep 512 rows and 512 colums?
 
-because the length h1 + length h2 -1
+because the length h1 + length h2 - 1
 |h1| = 512; |h2| = 2 -> 513
+Therefore, we need to crop the image to it orginal size
 %}
 
 %% Visual quality
@@ -63,13 +67,15 @@ ech90_rec_cropped = rec(1:512, 1:512);
 % 18 images;
 
 %Compare orgintial with ech90, orginial with the reconstruct
-immse(ech90cropped, echart) 
-psnr (ech90cropped, echart)
-ssim (ech90cropped, echart)
 
+% IMMSE:
+immse(ech90cropped, echart)
 immse(ech90_rec_cropped, echart)
+
+% PSNR
+psnr (ech90cropped, echart)
 psnr (ech90_rec_cropped, echart)
+
+% SSIM
+ssim (ech90cropped, echart)
 ssim (ech90_rec_cropped, echart)
-
-
-
