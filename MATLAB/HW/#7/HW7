@@ -1,0 +1,27 @@
+%% Prob. 1
+% iv.
+
+h = ones(1, 4);
+x = ones(1, 9);
+y = conv(h, x);
+n = 0 : 11;
+stem(n, y);
+xlim([-0.2 11.2]);
+ylim([-0.2, 4.2]);
+xlabel('n');
+ylabel('y[n]');
+
+%% Problem 2
+%%% Specify the filter
+z0 = 1;
+p0 = -0.9;
+C = 0.5; %% to match (D)
+%%% Plot the magnitude response
+w = -pi : (2*pi/10000) : pi;
+Hnumer = (1 - z0*exp(-j*w));
+Hdenom = (1 - p0*exp(-j*w));
+H = C * Hnumer ./ Hdenom;
+plot(w, abs(H));
+xlim( [-pi pi] );
+xlabel('w [rad/sample]');
+ylabel('Magnitude Response');
